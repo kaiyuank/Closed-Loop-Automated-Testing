@@ -1,0 +1,64 @@
+# STM32CubeIDE / C build artifacts
+firmware/**/.cproject
+firmware/**/.project
+firmware/**/.settings/
+firmware/**/Debug/
+firmware/**/Release/
+firmware/**/*.d
+firmware/**/*.o
+firmware/**/*.elf
+firmware/**/*.bin
+firmware/**/*.map
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+*.npz
+*.mat
+
+# Docusaurus / Node
+website/test-station/node_modules/
+website/test-station/.docusaurus/
+website/test-station/build/
+
+# Altium generated and local files
+**/__Previews/
+**/History/
+**/Project Logs*/
+**/Project Outputs*/
+**/CompareHistory/
+
+**/*.SchDocPreview
+**/*.PcbDocPreview
+**/*.PcbDoc.htm
+**/*.metadata
+**/*.PrjPcbStructure
+**/*.PrjMbdStructure
+**/*.ldb
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local editor and Python environments
+.vscode/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Hardware-specific calibration
+python/tia_cal.json
+python/cal_ads131.json
+
+# Generated measurement outputs
+python/MosTesting/test*_raw_*.csv
+python/MosTesting/test*_summary_*.json
+python/MosTesting/test*_final_*.png
+python/OPATesting/*.csv
+python/OPATesting/*.json
+python/OPATesting/*.png
+python/OPATesting/*.npz
+python/OPATesting/*.mat

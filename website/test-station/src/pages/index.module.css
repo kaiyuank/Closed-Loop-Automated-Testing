@@ -1,0 +1,155 @@
+/*
+ * Project: Automated Analog and Neuromorphic Integrated Circuits Test Station
+ * Author: Kaiyuan (Sam) Kang
+ *
+ * Licensing Terms: This program is licensed under the Creative Commons
+ * Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).
+ * You are free to share and adapt this program for noncommercial purposes,
+ * provided that appropriate credit is given, a link to the license is provided,
+ * and any modifications are indicated. Commercial use requires a separate
+ * license from the copyright holder. See the LICENSE file for the complete
+ * license terms.
+ *
+ * NO WARRANTY: BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO
+ * WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.
+ * EXCEPT WHEN OTHERWISE STATED IN WRITING, THE COPYRIGHT HOLDERS AND/OR
+ * OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND,
+ * EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE
+ * ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.
+ * SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY
+ * SERVICING, REPAIR, OR CORRECTION. IN NO EVENT, UNLESS REQUIRED BY
+ * APPLICABLE LAW OR AGREED TO IN WRITING, WILL ANY COPYRIGHT HOLDER OR ANY
+ * OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIBUTE THE PROGRAM BE LIABLE TO
+ * YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL, OR
+ * CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE
+ * PROGRAM (INCLUDING, BUT NOT LIMITED TO, LOSS OF DATA, DATA BEING
+ * RENDERED INACCURATE, LOSSES SUSTAINED BY YOU OR THIRD PARTIES, OR A
+ * FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS), EVEN IF SUCH
+ * HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGES.
+ */
+.main { --page-width: 1160px; color: var(--ifm-font-color-base); }
+.container { max-width: var(--page-width); margin: 0 auto; }
+
+.hero {
+  padding: clamp(3.25rem, 5vw, 5rem) 1.5rem 4.5rem;
+  background: radial-gradient(circle at 85% 30%, rgba(47, 133, 90, 0.12), transparent 36%), var(--ifm-background-color);
+}
+.heroInner { max-width: var(--page-width); margin: 0 auto; }
+.eyebrow, .kicker {
+  margin: 0 0 1rem; color: var(--ifm-color-primary-dark);
+  font-size: 0.76rem; font-weight: 750; letter-spacing: 0.12em; text-transform: uppercase;
+}
+[data-theme='dark'] .eyebrow, [data-theme='dark'] .kicker { color: var(--ifm-color-primary-light); }
+.hero h1 {
+  max-width: 1100px; margin: 0 0 2.25rem;
+  font-size: clamp(2.35rem, 3.6vw, 3.45rem); line-height: 1.1; letter-spacing: -0.04em;
+}
+.heroContent { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(2rem, 4vw, 4rem); align-items: center; }
+.heroText {
+  max-width: 520px; margin: 0 0 2rem; color: var(--ifm-color-emphasis-700);
+  font-size: 1.08rem; line-height: 1.72;
+}
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.primaryAction, .secondaryAction {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 46px;
+  padding: 0.65rem 1.25rem; border-radius: 7px; font-weight: 650;
+  font-size: 0.9rem; text-decoration: none !important;
+  transition: transform 0.18s, border-color 0.18s, background 0.18s;
+}
+.primaryAction { background: var(--ifm-color-primary); color: #fff !important; }
+.secondaryAction { border: 1px solid var(--ifm-color-emphasis-300); color: var(--ifm-font-color-base) !important; }
+.primaryAction:hover, .secondaryAction:hover { transform: translateY(-2px); }
+.primaryAction:hover { background: var(--ifm-color-primary-dark); }
+.secondaryAction:hover { border-color: var(--ifm-color-primary); background: var(--ifm-color-emphasis-100); }
+
+.heroVisual {
+  margin: 0; padding: 0.85rem; border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 18px; background: var(--ifm-background-surface-color);
+  box-shadow: 0 22px 65px rgba(15, 23, 42, 0.11);
+}
+.heroPhoto { display: block; width: 100%; height: auto; border-radius: 10px; }
+.visualCaption { display: block; margin: 0.75rem 0.25rem 0; color: var(--ifm-color-emphasis-600); font-size: 0.75rem; }
+
+.highlights {
+  padding: 0 1.5rem; border-block: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-background-surface-color);
+}
+.highlightGrid { max-width: var(--page-width); margin: 0 auto; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.highlight { display: flex; flex-direction: column; gap: 0.22rem; padding: 1.75rem 1.25rem; border-left: 1px solid var(--ifm-color-emphasis-200); }
+.highlight:first-child { border-left: 0; padding-left: 0; }
+.highlight strong { color: var(--ifm-color-primary-dark); font-size: 2rem; line-height: 1; letter-spacing: -0.04em; }
+[data-theme='dark'] .highlight strong { color: var(--ifm-color-primary-light); }
+.highlight span { font-weight: 650; font-size: 0.86rem; }
+.highlight small { color: var(--ifm-color-emphasis-600); font-size: 0.76rem; }
+
+.section, .sectionAlt { padding: 5rem 1.5rem; }
+.sectionAlt { background: var(--ifm-color-emphasis-100); }
+.sectionHeading { display: grid; grid-template-columns: 1fr minmax(260px, 440px); gap: 2rem; align-items: end; margin-bottom: 2rem; }
+.sectionHeading h2, .sectionHeadingCompact h2, .closing h2 {
+  margin: 0; font-size: clamp(1.7rem, 2.7vw, 2.35rem); line-height: 1.2; letter-spacing: -0.025em;
+}
+.sectionHeading > p { margin: 0; color: var(--ifm-color-emphasis-700); line-height: 1.65; font-size: 0.95rem; }
+.sectionHeadingCompact { margin-bottom: 2rem; }
+.diagramCard {
+  margin: 0; overflow: hidden; border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 16px; background: var(--ifm-background-surface-color);
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.055);
+}
+.diagramScroll { overflow-x: auto; padding: 1.1rem 1rem 0.3rem; }
+.diagramScroll img { display: block; width: 100%; min-width: 680px; height: auto; }
+.diagramCard figcaption {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem 1rem;
+  padding: 1rem 1.5rem; border-top: 1px solid var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-600); font-size: 0.86rem;
+}
+.diagramCard figcaption a { font-weight: 650; }
+
+.layerGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.layerCard, .resultCard, .experimentCard { border: 1px solid var(--ifm-color-emphasis-200); border-radius: 12px; background: var(--ifm-background-surface-color); }
+.layerCard { display: flex; flex-direction: column; min-height: 250px; padding: 1.5rem; }
+.layerNumber { color: var(--ifm-color-primary); font-size: 0.78rem; font-weight: 750; letter-spacing: 0.08em; }
+.layerCard h3 { margin: 0.8rem 0 0.6rem; font-size: 1.25rem; }
+.layerCard p, .resultCard p, .experimentCard p { color: var(--ifm-color-emphasis-700); font-size: 0.91rem; line-height: 1.65; }
+.layerCard p { margin: 0 0 1.25rem; }
+.layerCard a { margin-top: auto; font-size: 0.88rem; font-weight: 650; }
+.resultGrid, .experimentGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.resultCard, .experimentCard {
+  display: block; padding: 1.65rem; color: inherit; text-decoration: none !important;
+  transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+}
+.resultCard:hover, .experimentCard:hover {
+  transform: translateY(-3px); border-color: var(--ifm-color-primary);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08); color: inherit;
+}
+.resultType { color: var(--ifm-color-primary); font-size: 0.76rem; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; }
+.resultCard h3, .experimentCard h3 { margin: 0.75rem 0 0.55rem; font-size: 1.27rem; }
+.resultCard p, .experimentCard p { margin: 0 0 1.4rem; }
+.cardArrow, .experimentCard span { color: var(--ifm-color-primary); font-size: 0.88rem; font-weight: 650; }
+
+.closing { padding: 4.5rem 1.5rem; background: var(--ifm-color-emphasis-100); }
+.closing p { max-width: 650px; margin: 1rem 0 1.6rem; color: var(--ifm-color-emphasis-700); line-height: 1.65; }
+.projectCredits { padding: 2.5rem 1.5rem 3rem; border-top: 1px solid var(--ifm-color-emphasis-200); color: var(--ifm-color-emphasis-700); font-size: 0.87rem; }
+.projectCredits h2 { margin: 0 0 0.8rem; color: var(--ifm-heading-color); font-size: 1.08rem; }
+.projectCredits p { margin: 0.3rem 0; }
+
+@media (max-width: 900px) {
+  .heroContent { grid-template-columns: 1fr; }
+  .heroText { max-width: 720px; }
+  .sectionHeading { grid-template-columns: 1fr; gap: 0.8rem; }
+}
+@media (max-width: 650px) {
+  .hero { padding: 3.5rem 1.25rem 3rem; }
+  .hero h1 { font-size: clamp(2.15rem, 8.5vw, 3rem); margin-bottom: 1.5rem; }
+  .heroVisual { padding: 0.65rem; }
+  .highlightGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .highlight { border-left: 0; padding: 1.3rem 0.75rem; }
+  .highlight:nth-child(even) { border-left: 1px solid var(--ifm-color-emphasis-200); }
+  .highlight:nth-child(n+3) { border-top: 1px solid var(--ifm-color-emphasis-200); }
+  .section, .sectionAlt { padding: 3.5rem 1.25rem; }
+  .layerGrid, .resultGrid, .experimentGrid { grid-template-columns: 1fr; }
+  .layerCard { min-height: 0; }
+  .diagramScroll { padding: 0.5rem; }
+  .diagramCard figcaption { padding: 1rem; }
+}
