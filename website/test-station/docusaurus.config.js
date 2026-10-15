@@ -34,15 +34,15 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Automated Analog and Neuromorphic Integrated Circuits Test-Station',
-  tagline: 'Modular hardware, firmware, and Python control for repeatable IC characterization',
+  title: 'Closed-Loop Automated Testing',
+  tagline: 'Automated and adaptive characterization of analog integrated circuits',
   favicon: 'img/favicon.ico',
 
-  url: 'https://aimlab-wustl.github.io',
-  baseUrl: '/RCNteststation/',
+  url: 'https://kaiyuank.github.io',
+  baseUrl: '/Closed-Loop-Automated-Testing/',
 
-  organizationName: 'aimlab-wustl',
-  projectName: 'RCNteststation',
+  organizationName: 'kaiyuank',
+  projectName: 'Closed-Loop-Automated-Testing',
 
   onBrokenLinks: 'throw',
 
@@ -58,7 +58,7 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
-          editUrl: 'https://github.com/aimlab-wustl/RCNteststation/tree/main/website/test-station/',
+          editUrl: 'https://github.com/kaiyuank/Closed-Loop-Automated-Testing/tree/main/website/test-station/',
         },
         blog: false,
         theme: {
@@ -86,7 +86,7 @@ const config = {
         respectPrefersColorScheme: true,
       },
       navbar: {
-        title: 'Test Station',
+        title: 'Closed-Loop Testing',
         items: [
           {
             type: 'docSidebar',
@@ -101,7 +101,7 @@ const config = {
             label: 'PCB Design',
           },
           {
-            href: 'https://github.com/aimlab-wustl/RCNteststation',
+            href: 'https://github.com/kaiyuank/Closed-Loop-Automated-Testing',
             label: 'GitHub',
             position: 'right',
           },
@@ -149,12 +149,12 @@ const config = {
             items: [
               {
                 label: 'GitHub Repository',
-                href: 'https://github.com/aimlab-wustl/RCNteststation',
+                href: 'https://github.com/kaiyuank/Closed-Loop-Automated-Testing',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Automated Analog and Neuromorphic Integrated Circuits Test-Station.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Closed-Loop Automated Testing.`,
       },
       prism: {
         theme: prismThemes.github,

@@ -1,46 +1,111 @@
-# Automated Analog and Neuromorphic Integrated Circuits Test-Station
+# Closed-Loop Automated Testing for Analog Integrated Circuits
 
-Characterizing a fabricated analog or neuromorphic IC often requires several instruments, separate software interfaces, and repeated manual setup for each device. This makes measurements slow to run and difficult to reproduce. The test station brings programmable biasing, precision voltage and current measurement, fast transient capture, and Python control into one modular system so that researchers can reuse the hardware and compare results across devices.
+**ESE 4970 Capstone Design · Fall 2026**  
+**Washington University in St. Louis**
 
-This project is supported in part by a Research Coordination Network (RCN) grant from the National Science Foundation (NSF), grant no. **2332166**.
+**Team:** Sam Kang · Alson Yau · Simon He  
+**Project advisor:** Professor Shantanu Chakrabartty
 
-[System documentation](https://aimlab-wustl.github.io/RCNteststation/) · [Hardware setup](https://aimlab-wustl.github.io/RCNteststation/docs/getting-started/hardware-setup) · [Software setup](https://aimlab-wustl.github.io/RCNteststation/docs/getting-started/software-setup)
+[Project website](https://kaiyuank.github.io/Closed-Loop-Automated-Testing/) · [Source repository](https://github.com/kaiyuank/Closed-Loop-Automated-Testing) · [Underlying RCN Test Station](https://aimlab-wustl.github.io/RCNteststation/)
 
-## Test station system
+## Overview
 
-| Subsystem | V3 implementation |
+This capstone project develops a reusable **automated and closed-loop testing framework for analog integrated circuits**. It combines programmable measurement hardware, external laboratory instruments, embedded control, and Python-based characterization routines to reduce manual setup and improve measurement repeatability.
+
+The primary demonstration uses operational amplifiers, with an architecture intended to support future post-tapeout analog and mixed-signal IC testing. In addition to conventional DC, AC, transient, power-supply rejection ratio (PSRR), and noise measurements, the project investigates **measurement-driven test planning** and **adaptive frequency selection**.
+
+## Project objectives
+
+- **Automated characterization:** Run reusable measurement routines, acquire raw data, extract specifications, and generate standardized plots and summaries.
+- **Closed-loop test planning:** Use results from earlier tests to select subsequent bias points, input amplitudes, frequency ranges, and acquisition settings while respecting safety limits.
+- **Adaptive AC analysis:** Apply Gaussian-process-based Bayesian optimization to select informative measurement frequencies instead of relying exclusively on dense fixed sweeps.
+- **Reproducibility:** Preserve measurement conditions, instrument settings, calibration details, and datasets for comparison and future reuse.
+
+## System architecture
+
+The project builds on a modular instrument platform composed of:
+
+| Component | Role |
 | --- | --- |
-| Programmable bias | Five DAC80508 devices provide 40 independent 16-bit outputs over 0–5 V. A jumper selects NI USB-6212 or STM32H743 control. |
-| Precision voltage acquisition | Two ADS131A04 devices provide eight differential 24-bit inputs. The current DMA implementation streams four channels from one chip at a time, up to 62.5 kSPS per channel. |
-| Current measurement | Two OPA3S328 transimpedance circuits provide selectable nominal feedback from 2 kΩ to 2 MΩ, with their outputs measured by the precision ADC. |
-| Fast transient capture | The STM32H743 internal ADC captures up to 8,000 samples at up to 3.2 MSPS on PA1 using timer-triggered DMA. |
-| DUT connection | A ZIF40 daughterboard and package-specific adapter route bias, measurement, digital I/O, and timing signals to the device under test. |
+| **DAC80508 outputs** | 40 programmable, 16-bit DC bias/control channels (0–5 V) |
+| **ADS131A04 converters** | Eight differential, 24-bit precision ADC channels across two devices |
+| **STM32H743** | Embedded control, USB communication, and fast transient acquisition |
+| **Current-measurement front end** | Switchable transimpedance measurement paths |
+| **NI USB-6212 and external instruments** | Additional stimulus, acquisition, calibration, and reference measurements |
+| **Python software** | Instrument control, automated experiments, data analysis, and adaptive test planning |
 
-## Firmware and Python control
+An external function generator and oscilloscope can be integrated when AC stimulus or waveform measurement exceeds the practical capabilities of the custom board. Available hardware paths depend on the specific experiment and device under test (DUT).
 
-STM32 firmware handles USB CDC communication, DAC control, ADS131A04 acquisition, TIA range selection, and transient capture. The NI USB-6212 provides a second control path and bench analog I/O. Python modules in [`python/hardware/`](python/hardware/) expose these functions to measurement scripts, which save data and generate plots for repeatable tests.
+## Measurement workflows
 
-The [DAC characterization](https://aimlab-wustl.github.io/RCNteststation/docs/subsystems/dac/characterization) and [ADC characterization](https://aimlab-wustl.github.io/RCNteststation/docs/subsystems/adc/characterization) pages report measured board-level performance together with the conditions and limitations of each test.
+| Workflow | Scope | Status |
+| --- | --- | --- |
+| DC characterization | Transfer curves, gain, offset, linearity, output swing | Implemented |
+| DC PSRR and related op-amp tests | Supply sensitivity, common-mode range, input bias | Existing test routines |
+| Transient characterization | Step response, slew rate, overshoot, settling | Existing test routine |
+| Adaptive AC characterization | Gain, phase, −3 dB bandwidth, optimized frequency selection | Implemented |
+| Frequency-dependent PSRR | AC supply-disturbance characterization | Under development / validation |
+| Noise characterization | Noise capture and spectral-density analysis | Under development |
+| Integrated closed-loop sequence | Automatically choose later test settings using earlier results | Under development |
 
-The [Adaptive AC analysis](https://aimlab-wustl.github.io/RCNteststation/docs/automation/adaptive-ac) page demonstrates an Ax-based Bayesian optimization workflow that adaptively selects frequency points to estimate gain, phase, and −3 dB bandwidth with fewer physical measurements.
+*Status describes the current capstone demonstration and may evolve as testing and validation continue. The presence of a measurement script does not by itself imply that every DUT or hardware configuration has been validated.*
 
-## Repository contents
+### Adaptive AC demonstration
 
-| Path | Contents |
-| --- | --- |
-| [`pcb/`](pcb/) | V3 motherboard schematic and PCB, daughterboard PCB, and fabrication packages |
-| [`firmware/`](firmware/) | STM32 firmware and required vendor libraries |
-| [`python/`](python/) | Hardware drivers and measurement scripts |
-| [`website/test-station/`](website/test-station/) | System documentation, schematics, and characterization figures |
+A demonstrated adaptive AC sweep used **38 physical measurements**, compared with **100** in a matched dense sweep. Acquisition time decreased from **43.75 s to 17.11 s**. The measured −3 dB bandwidths were **74.925 kHz** (dense) and **75.020 kHz** (adaptive), a **0.127%** difference in this experiment.
 
-## Status
+The adaptive measurement loop selects a frequency, measures the DUT response, updates the model, and selects the next frequency. This is a demonstrated adaptive sub-workflow; the broader sequential DC-to-AC-to-transient closed-loop system is a separate integration objective.
 
-MOSFET and op-amp DC measurements, fast step-response capture, and adaptive AC characterization have been implemented. The adaptive AC pipeline has been experimentally demonstrated using Gaussian-process-based Bayesian optimization to select measurement frequencies efficiently.
+See the [Adaptive AC Analysis documentation](https://kaiyuank.github.io/Closed-Loop-Automated-Testing/docs/automation/adaptive-ac) for methodology, figures, and the full comparison.
 
-Noise characterization, adaptive PSRR testing, and the broader automated test-planning layer remain under development. The system is intended to support different post-tapeout devices through interchangeable DUT adapters and reusable measurement routines.
+## Repository and documentation
 
-## Credit and license
+This repository includes the test-station hardware and software foundation along with capstone-specific automation and documentation. Key locations include:
 
-Project development: **Kaiyuan (Sam) Kang**, AIMLAB, Washington University in St. Louis.
+- `website/test-station/` — Docusaurus project website and documentation.
+- `firmware/test_station_fw/` — STM32 firmware project.
+- `python/` — Python instrument drivers, measurement routines, and analysis utilities.
+- Hardware design files and verification documentation — see the [PCB Design documentation](https://kaiyuank.github.io/Closed-Loop-Automated-Testing/pcb/overview).
 
-Unless otherwise noted, original project material is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International Public License](LICENSE) (**CC BY-NC 4.0**). Noncommercial reuse and adaptation require attribution, a link to the license, and an indication of changes. Commercial use requires separate permission from the rights holder. Third-party STM32 libraries retain their own licenses in their respective directories.
+For setup instructions, see the [Hardware Setup](https://kaiyuank.github.io/Closed-Loop-Automated-Testing/docs/getting-started/hardware-setup) and [Software Setup](https://kaiyuank.github.io/Closed-Loop-Automated-Testing/docs/getting-started/software-setup) pages.
+
+### Website development
+
+From the repository root:
+
+```powershell
+cd website/test-station
+npm ci
+npm run start
+```
+
+To test a production build:
+
+```powershell
+npm run build
+```
+
+The site is deployed through GitHub Actions to GitHub Pages. The deployment workflow is in `.github/workflows/deploy.yml`.
+
+## Relationship to the RCN Test Station
+
+**This capstone project is built upon the [Automated Analog and Neuromorphic Integrated Circuits Test Station](https://aimlab-wustl.github.io/RCNteststation/) developed at AIMLAB, Washington University in St. Louis.** The underlying platform provides programmable mixed-signal hardware, embedded firmware, and instrument-control software. The capstone uses and extends that foundation for integrated characterization workflows, measurement-driven decision making, and adaptive testing.
+
+- **Original platform:** https://aimlab-wustl.github.io/RCNteststation/
+- **Original source repository:** https://github.com/aimlab-wustl/RCNteststation
+
+The original RCN Test Station work has been supported in part by NSF Research Coordination Network award **2332166**. This acknowledgment refers to the underlying research platform and does not imply separate NSF sponsorship of the ESE 4970 capstone project.
+
+## Team and acknowledgment
+
+**Capstone team:** Sam Kang, Alson Yau, Simon He  
+**Faculty advisor:** Professor Shantanu Chakrabartty  
+**Institution:** Department of Electrical and Systems Engineering, Washington University in St. Louis
+
+We acknowledge the AIMLAB RCN Test Station project and contributors for the underlying hardware, firmware, documentation, and measurement infrastructure.
+
+## License and usage
+
+Reused RCN Test Station material retains its original attribution and applicable license notices. The original project identifies its materials as licensed under **Creative Commons Attribution–NonCommercial 4.0 International (CC BY-NC 4.0)**. See the repository's `LICENSE` and individual source-file headers for applicable terms. This project is intended for research, education, and noncommercial development.
+
+**Safety note:** Verify DUT supply limits, current limits, wiring, and instrument configurations before running automated experiments. Not all measurement paths have the same voltage, current, noise, or bandwidth limits.

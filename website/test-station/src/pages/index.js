@@ -1,6 +1,8 @@
 /*
  * Project: Automated Analog and Neuromorphic Integrated Circuits Test Station
- * Author: Kaiyuan (Sam) Kang
+ * Original platform author: Kaiyuan (Sam) Kang
+ * Capstone adaptation: Sam Kang, Alson Yau, Simon He
+ * Based on: https://github.com/aimlab-wustl/RCNteststation
  *
  * Licensing Terms: This program is licensed under the Creative Commons
  * Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).
@@ -35,6 +37,30 @@ import Layout from '@theme/Layout';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './index.module.css';
 
+const capstoneFocus = [
+  {
+    number: '01',
+    title: 'Automated Characterization',
+    text: 'Reusable Python routines coordinate instruments and extract DC, AC, transient, PSRR, and noise characteristics.',
+    link: '/docs/measurements/measurements-overview',
+    linkText: 'Explore measurements',
+  },
+  {
+    number: '02',
+    title: 'Closed-Loop Test Planning',
+    text: 'The integrated workflow under development will use earlier measurements to select appropriate bias, stimulus, and acquisition settings.',
+    link: '/docs/automation/automation-overview',
+    linkText: 'Explore automation',
+  },
+  {
+    number: '03',
+    title: 'Adaptive AC Analysis',
+    text: 'An implemented Gaussian-process-based sweep selects measurement frequencies and estimates amplifier bandwidth using fewer samples.',
+    link: '/docs/automation/adaptive-ac',
+    linkText: 'View adaptive AC results',
+  },
+];
+
 const highlights = [
   {value: '40', label: 'programmable DAC outputs', detail: '16-bit · 0–5 V'},
   {value: '8', label: 'differential ADC inputs', detail: '24-bit · two ADS131A04s'},
@@ -62,6 +88,11 @@ const layers = [
 
 const results = [
   {
+    type: 'Adaptive AC analysis', title: 'Fewer measurements, comparable bandwidth',
+    text: '38 adaptive frequency points versus 100 in a dense sweep, with a 0.127% difference in estimated -3 dB bandwidth in the documented comparison.',
+    link: '/docs/automation/adaptive-ac',
+  },
+  {
     type: 'DAC characterization', title: 'Programmable bias, measured',
     text: 'Static accuracy, reference selection, control paths, and output filter noise across the DAC80508 chain.',
     link: '/docs/subsystems/dac/characterization',
@@ -74,37 +105,79 @@ const results = [
 ];
 
 const experiments = [
-  {name: 'MOSFET', detail: 'Transfer and output curves, threshold voltage, transconductance, and body diode.', link: '/docs/measurements/mosfet/mosfet-overview'},
-  {name: 'Op-amp', detail: 'DC gain, offset, common-mode range, PSRR, input bias, and step response.', link: '/docs/measurements/opamp/opamp-overview'},
+  {
+    name: 'Op-amp Characterization',
+    detail: 'DC gain, offset, common-mode range, DC PSRR, input bias current, and transient response.',
+    link: '/docs/measurements/opamp/opamp-overview',
+  },
+  {
+    name: 'Adaptive AC Sweep',
+    detail: 'Gain, phase, and -3 dB bandwidth measured using Bayesian optimization and Gaussian-process modeling.',
+    link: '/docs/automation/adaptive-ac',
+  },
+  {
+    name: 'MOSFET Platform Example',
+    detail: 'Existing test-station measurement workflows for transfer curves, output curves, and body diode behavior.',
+    link: '/docs/measurements/mosfet/mosfet-overview',
+  },
 ];
 
 export default function Home() {
-  const backPhoto = useBaseUrl('/img/teststation_back.jpg');
   const diagram = useBaseUrl('/img/system-block-diagram.svg');
 
   return (
-    <Layout title="Home" description="A modular board, STM32 firmware, and Python control for repeatable analog and neuromorphic IC characterization">
+    <Layout title="Home" description="Closed-loop automated testing for analog integrated circuits with Python instrument control and adaptive AC analysis">
       <main className={styles.main}>
         <section className={styles.hero}>
           <div className={styles.heroInner}>
-            <p className={styles.eyebrow}>AIMLAB · Washington University in St. Louis</p>
-            <h1>Automated Analog and Neuromorphic Integrated Circuits Test-Station</h1>
-            <div className={styles.heroContent}>
-              <div className={styles.heroCopy}>
-                <p className={styles.heroText}>
-                  A modular test station for repeatable post-tapeout measurements.
-                  The board, STM32 firmware, and Python software bring programmable
-                  biasing, precise acquisition, and experiment control together.
-                </p>
-                <div className={styles.actions}>
-                  <Link className={styles.primaryAction} to="/docs/intro">Explore the system</Link>
-                  <Link className={styles.secondaryAction} to="/docs/measurements/measurements-overview">See measurements</Link>
-                </div>
-              </div>
-              <figure className={styles.heroVisual}>
-                <img src={backPhoto} alt="V3 test station assembled motherboard and connections" className={styles.heroPhoto} />
-                <figcaption className={styles.visualCaption}>V3 motherboard · assembled board</figcaption>
-              </figure>
+            <p className={styles.eyebrow}>
+              ESE 4970 CAPSTONE DESIGN · WASHU · FALL 2026
+            </p>
+
+            <h1 className={styles.heroTitle}>
+              Closed-Loop Automated<br />Testing
+            </h1>
+
+            <p className={styles.heroSub}>
+              A Python-based platform for automated and adaptive characterization
+              of analog integrated circuits. The project combines programmable
+              measurement hardware, external laboratory instruments, and
+              closed-loop test planning for efficient, reproducible testing.
+            </p>
+
+            <p className={styles.heroSub}>
+              Sam Kang · Alson Yau · Simon He
+            </p>
+
+            <p className={styles.heroSub}>
+              Built upon the{' '}
+              <a
+                href="https://aimlab-wustl.github.io/RCNteststation/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                RCN Test Station
+              </a>
+              {' '}developed at AIMLAB, Washington University in St. Louis.
+            </p>
+          </div>
+        </section>
+
+        <section className={styles.sectionAlt} id="capstone-focus">
+          <div className={styles.container}>
+            <div className={styles.sectionHeadingCompact}>
+              <p className={styles.kicker}>Capstone objectives</p>
+              <h2>Automated measurements, closed-loop decisions, adaptive testing</h2>
+            </div>
+            <div className={styles.layerGrid}>
+              {capstoneFocus.map((item) => (
+                <article className={styles.layerCard} key={item.title}>
+                  <span className={styles.layerNumber}>{item.number}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                  <Link to={item.link}>{item.linkText} →</Link>
+                </article>
+              ))}
             </div>
           </div>
         </section>
@@ -170,9 +243,9 @@ export default function Home() {
             <div className={styles.sectionHeading}>
               <div>
                 <p className={styles.kicker}>Measured performance</p>
-                <h2>Explore the DAC and ADC results</h2>
+                <h2>Adaptive measurement and hardware characterization</h2>
               </div>
-              <p>Board-level characterization documents the conditions, results, and limitations behind the headline specifications.</p>
+              <p>Adaptive AC performance is compared against a dense sweep, while board-level DAC and ADC tests document the measurement platform and its limitations.</p>
             </div>
             <div className={styles.resultGrid}>
               {results.map((item) => (
@@ -194,7 +267,7 @@ export default function Home() {
                 <p className={styles.kicker}>Experiment workflows</p>
                 <h2>From device connection to measurement</h2>
               </div>
-              <p>Implemented MOSFET and op-amp routines use the same hardware and Python control stack. Adaptive AC analysis is now implemented; noise and additional adaptive measurement workflows remain in development.</p>
+              <p>Op-amp measurements and the adaptive AC demonstration form the capstone's main examples. Existing MOSFET workflows illustrate the underlying platform. Noise and full sequential closed-loop integration remain in development.</p>
             </div>
             <div className={styles.experimentGrid}>
               {experiments.map((item) => (
@@ -210,11 +283,11 @@ export default function Home() {
 
         <section className={styles.closing}>
           <div className={styles.container}>
-            <h2>Start with the system</h2>
-            <p>See the hardware connections and software setup, then explore each subsystem and its measured performance.</p>
+            <h2>Explore the testing framework</h2>
+            <p>See the adaptive AC demonstration, measurement workflows, and underlying open-source hardware platform.</p>
             <div className={styles.actions}>
-              <Link className={styles.primaryAction} to="/docs/getting-started/hardware-setup">Hardware setup</Link>
-              <a className={styles.secondaryAction} href="https://github.com/aimlab-wustl/RCNteststation">View source on GitHub</a>
+              <Link className={styles.primaryAction} to="/docs/automation/adaptive-ac">Adaptive AC results</Link>
+              <a className={styles.secondaryAction} href="https://github.com/kaiyuank/Closed-Loop-Automated-Testing">View source on GitHub</a>
             </div>
           </div>
         </section>
@@ -222,9 +295,23 @@ export default function Home() {
         <section className={styles.projectCredits} aria-labelledby="project-credits-title">
           <div className={styles.container}>
             <h2 id="project-credits-title">Project credits</h2>
-            <p>Developed by Kaiyuan (Sam) Kang at AIMLAB, Washington University in St. Louis.</p>
-            <p>Supported in part by a National Science Foundation Research Coordination Network grant (NSF 2332166).</p>
-            <p>Original project materials are licensed under <a href="https://github.com/aimlab-wustl/RCNteststation/blob/main/LICENSE">CC BY-NC 4.0</a>.</p>
+            <p><strong>Capstone team:</strong> Sam Kang · Alson Yau · Simon He</p>
+            <p><strong>Faculty advisor:</strong> Professor Shantanu Chakrabartty, Washington University in St. Louis.</p>
+            <p>
+              <strong>Underlying platform:</strong> This capstone builds upon the{' '}
+              <a href="https://aimlab-wustl.github.io/RCNteststation/" target="_blank" rel="noopener noreferrer">
+                RCN Test Station
+              </a>
+              {' '}developed at AIMLAB, with the original platform work led by Kaiyuan (Sam) Kang.
+            </p>
+            <p>The original RCN Test Station project was supported in part by NSF Research Coordination Network grant 2332166.</p>
+            <p>
+              Reused source and documentation retain the original{' '}
+              <a href="https://github.com/aimlab-wustl/RCNteststation/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
+                CC BY-NC 4.0 license
+              </a>
+              {' '}and attribution notices.
+            </p>
           </div>
         </section>
       </main>
