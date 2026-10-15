@@ -1,4 +1,4 @@
-# Closed-Loop Automated Testing for Analog Integrated Circuits
+# Closed-Loop Automated Testing for Analog ICs
 
 **ESE 4970 Capstone Design · Fall 2026**  
 **Washington University in St. Louis**
@@ -69,40 +69,23 @@ This repository includes the test-station hardware and software foundation along
 
 For setup instructions, see the [Hardware Setup](https://kaiyuank.github.io/Closed-Loop-Automated-Testing/docs/getting-started/hardware-setup) and [Software Setup](https://kaiyuank.github.io/Closed-Loop-Automated-Testing/docs/getting-started/software-setup) pages.
 
-### Website development
-
-From the repository root:
-
-```powershell
-cd website/test-station
-npm ci
-npm run start
-```
-
-To test a production build:
-
-```powershell
-npm run build
-```
-
-The site is deployed through GitHub Actions to GitHub Pages. The deployment workflow is in `.github/workflows/deploy.yml`.
-
 ## Relationship to the RCN Test Station
 
-**This capstone project is built upon the [Automated Analog and Neuromorphic Integrated Circuits Test Station](https://aimlab-wustl.github.io/RCNteststation/) developed at AIMLAB, Washington University in St. Louis.** The underlying platform provides programmable mixed-signal hardware, embedded firmware, and instrument-control software. The capstone uses and extends that foundation for integrated characterization workflows, measurement-driven decision making, and adaptive testing.
+**This capstone builds upon the [Automated Analog and Neuromorphic Integrated Circuits Test Station](https://aimlab-wustl.github.io/RCNteststation/), independently developed by Kaiyuan (Sam) Kang at AIMLAB, Washington University in St. Louis.** Sam developed the original platform’s hardware, firmware, measurement software, and documentation. The three-member capstone project builds on that existing work to develop integrated characterization workflows, measurement-driven test planning, and adaptive testing.
 
 - **Original platform:** https://aimlab-wustl.github.io/RCNteststation/
 - **Original source repository:** https://github.com/aimlab-wustl/RCNteststation
 
 The original RCN Test Station work has been supported in part by NSF Research Coordination Network award **2332166**. This acknowledgment refers to the underlying research platform and does not imply separate NSF sponsorship of the ESE 4970 capstone project.
 
-## Team and acknowledgment
+## Credits and acknowledgments
 
 **Capstone team:** Sam Kang, Alson Yau, Simon He  
 **Faculty advisor:** Professor Shantanu Chakrabartty  
-**Institution:** Department of Electrical and Systems Engineering, Washington University in St. Louis
+**Institution:** Department of Electrical and Systems Engineering, Washington University in St. Louis  
+**Original RCN Test Station developer:** Kaiyuan (Sam) Kang
 
-We acknowledge the AIMLAB RCN Test Station project and contributors for the underlying hardware, firmware, documentation, and measurement infrastructure.
+The capstone builds on the RCN Test Station independently developed by Sam Kang. AIMLAB and the NSF Research Coordination Network are acknowledged for supporting the underlying research platform.
 
 ## License and usage
 
