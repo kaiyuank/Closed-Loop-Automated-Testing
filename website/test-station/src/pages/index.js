@@ -74,8 +74,12 @@ export default function Home() {
               <div className={styles.heroContent}>
                 <p className={styles.eyebrow}>ESE 4970 CAPSTONE DESIGN · FALL 2026</p>
                 <h1 className={styles.heroTitle}>
-                  Closed-Loop
-                  <span>Automated Testing</span>
+                  <span className={styles.heroTitleMain}>
+                    Closed-Loop Automated Testing
+                  </span>
+                  <span className={styles.heroTitleSub}>
+                    for Analog Integrated Circuits
+                  </span>
                 </h1>
                 <p className={styles.heroSubject}>for Analog ICs</p>
                 <p className={styles.heroDescription}>

@@ -1,63 +1,55 @@
 ---
 id: intro
 title: Introduction
+sidebar_label: Introduction
 sidebar_position: 1
 ---
 
-# Automated Analog and Neuromorphic Integrated Circuits Test-Station
+# Closed-Loop Automated Testing for Analog ICs
 
-Characterizing fabricated analog and neuromorphic ICs often requires separate instruments, software interfaces, and repeated manual setup. These steps are slow and make results difficult to compare across devices. The AIMLAB test station combines a custom measurement board, STM32 firmware, and Python control to make bias generation, acquisition, and data analysis more repeatable.
+**ESE 4970 Capstone Design · Fall 2026**  
+**Washington University in St. Louis**  
+**Team:** Sam Kang · Alson Yau · Simon He  
+**Faculty advisor:** Professor Shantanu Chakrabartty
 
-This project is supported in part by a Research Coordination Network (RCN) grant from the National Science Foundation (NSF), grant no. **2332166**.
+## Project overview
 
-## What the Station Does
+Characterizing analog integrated circuits typically involves multiple instruments and separate procedures for DC, AC, transient, power-supply rejection, and noise measurements. Reconfiguring equipment and interpreting results manually can be time-consuming, particularly when testing different devices or research prototypes.
 
-The station generates programmable DC bias across 40 independent channels, provides 24-bit voltage acquisition, measures current down to the nanoamp range, and captures
-transient waveforms at up to 3.2 MSPS -- all from a single Python session. Two
-independent control paths (NI USB-6212 and STM32H743) share the same hardware and
-can be selected by jumper, giving flexibility for different measurement needs.
+This capstone project develops a **reusable, Python-based framework for automated and closed-loop analog IC characterization**. It combines a programmable test-station platform with external laboratory instruments, standardized measurement routines, and adaptive test planning. Commercial operational amplifiers serve as the main demonstration devices, with the goal of extending the workflow to post-tapeout analog ICs.
 
-DUTs connect through a ZIF40 adapter chain -- motherboard to daughter board to
-package-specific adapter -- making it straightforward to swap between device types
-without rewiring the measurement hardware.
+## What the project does
 
-## Measurement Capabilities
+- **Automated measurements:** Coordinate instrument settings, acquire data, extract specifications, and save results for DC, AC, transient, and other analog characterization procedures.
+- **Closed-loop test planning:** Use earlier measurements to guide later bias, signal-amplitude, frequency-range, and acquisition choices. Integration of the complete sequential workflow is ongoing.
+- **Adaptive AC analysis:** Apply Gaussian-process-based Bayesian optimization to select informative test frequencies while estimating amplifier gain, phase, and −3 dB bandwidth.
 
-**MOSFET characterization** is fully implemented and validated. The pipeline extracts
-threshold voltage (Vth), transconductance (gm), output characteristics (Id-Vds family
-of curves), and body diode forward voltage -- all automatically from a three-test
-sequence with no rewiring between tests. Bias points for the output sweep are set
-automatically from the Vth extracted in the transfer curve test.
+### Adaptive AC demonstration
 
-**Op-amp characterization** covers DC gain, offset voltage (Vos), linearity (INL),
-output swing, common-mode input range (CMR), DC power supply rejection (PSRR), input
-bias current (Ib, Ios), and step response. The step response pipeline captures at
-3.2 MSPS using the STM32 internal ADC with DMA, resolving slew rate and overshoot
-on a sub-microsecond timescale. All tests run from a single Python class with
-consistent save/plot/JSON output structure.
+In one documented amplifier comparison, the adaptive AC routine used **38 frequency points instead of 100**. Acquisition time decreased from **43.75 s to 17.11 s**, and the two methods' −3 dB bandwidth estimates differed by **0.127%**. These figures describe this specific demonstration, not a guaranteed improvement for every device.
 
-## Hardware Platform
+See [Adaptive AC Analysis](./automation/adaptive-ac) for the method, plots, and comparison results.
 
-The station is built around five purpose-designed subsystems:
+## Measurement platform
 
-- **40-channel DAC** (5x DAC80508, 16-bit, 0-5V) for programmable bias generation,
-  with per-channel RC filters on the last two chips for noise-sensitive measurements
-- **8-channel precision ADC** (2x ADS131A04, 24-bit, 476 nV/LSB) with DMA streaming
-  up to 62.5 kSPS and live data transfer to the PC over USB
-- **Transimpedance amplifier** (OPA3S328, switchable 2k/20k/200k/2M Ohm feedback)
-  for current measurement from microamps to milliamps, calibrated against a Keithley 2450
-- **STM32H743 MCU** at 480 MHz providing USB CDC control, fast burst ADC capture,
-  GPIO, and SPI2 DMA -- all accessible from Python over a simple ASCII command protocol
-- **NI USB-6212** providing 16-channel 16-bit analog input at 400 kS/s, two analog
-  outputs, 8 general-purpose digital I/O lines, and hardware counter/trigger via PFI
+The framework uses a programmable hardware platform with **40 channels of 16-bit DAC output**, **eight differential 24-bit ADC inputs**, STM32H743-based control and transient capture, and current-measurement circuits. External instruments—including an NI USB-6212, function generator, oscilloscope, and precision measurement equipment—provide additional control, stimulus, acquisition, and verification paths when appropriate.
 
-All subsystems are documented with hardware specs, firmware API, Python API, and
-measured performance results.
+The hardware, firmware, and Python interfaces are documented separately so that measurement workflows can be reused or extended without redesigning the entire platform.
 
-## Where to Start
+## Documentation
 
-- **Setting up the hardware** -- [Hardware Setup](./getting-started/hardware-setup)
-- **Installing Python and firmware** -- [Software Setup](./getting-started/software-setup)
-- **Understanding the hardware** -- [System Overview](./subsystems/subsystems-overview)
-- **Running a MOSFET test** -- [MOSFET Measurements](./measurements/mosfet/mosfet-overview)
-- **Running an op-amp test** -- [Op-Amp Measurements](./measurements/opamp/opamp-overview)
+- [Hardware and software setup](./getting-started/hardware-setup)
+- [Software setup](./getting-started/software-setup)
+- [System and subsystem overview](./subsystems/subsystems-overview)
+- [PCB design](./pcb-design/pcb-overview)
+- [Measurement workflows](./measurements/measurements-overview)
+- [Automation overview](./automation/automation-overview)
+- [Adaptive AC analysis](./automation/adaptive-ac)
+
+## Original platform and credits
+
+This capstone builds upon the **[RCN Test Station](https://aimlab-wustl.github.io/RCNteststation/)**, **independently developed by Kaiyuan (Sam) Kang** at AIMLAB, Washington University in St. Louis. Sam developed the original hardware, firmware, measurement software, and documentation. The three-person capstone team builds on that foundation to develop and integrate automated and adaptive testing workflows.
+
+The underlying RCN Test Station research was supported in part by **NSF Research Coordination Network grant 2332166**. Reused materials retain the original attribution and applicable [CC BY-NC 4.0 license](https://github.com/aimlab-wustl/RCNteststation/blob/main/LICENSE).
+
+**Source repositories:** [Capstone project](https://github.com/kaiyuank/Closed-Loop-Automated-Testing) · [Original RCN Test Station](https://github.com/aimlab-wustl/RCNteststation)
