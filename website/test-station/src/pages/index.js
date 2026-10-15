@@ -81,7 +81,6 @@ export default function Home() {
                     for Analog Integrated Circuits
                   </span>
                 </h1>
-                <p className={styles.heroSubject}>for Analog ICs</p>
                 <p className={styles.heroDescription}>
                   An automated measurement framework for analog integrated circuits,
                   combining programmable hardware, external instruments, and adaptive
